@@ -1,1 +1,258 @@
-/home/guilherme-heats/.aliases
+# == Adiciona os diretórios de admin (sbin) ao PATH ==
+export PATH=$PATH:/usr/sbin:/sbin
+
+# == Atalhos Padrão - zsh style ==
+# Navegação rápida entre diretórios
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# Listagem de arquivos - Baseado no Oh My Zsh
+alias l="ls -CF"
+alias la="ls -A"
+alias ll="ls -alF"
+alias ls="ls --color=auto --group-directories-first"
+
+# Atalhos de utilidade
+alias h="history"
+alias grep="grep --color=auto"
+alias mkdir="mkdir -p"
+
+# == Alises de Produtividade ==
+alias update='sudo apt update && sudo apt upgrade -y'
+# Limpeza completa do sistema (remove órfãos e pacotes 'rc' fantasmas)
+alias autoclean="sudo apt autoremove --purge && sudo apt purge \$(dpkg -l | grep '^rc' | awk '{print \$2}')"
+alias st='sudo systemctl status'
+alias c='clear'
+alias lt='ls -lah --color=always --time-style=long-iso'
+alias graphuser-on="sudo systemctl start lightdm.service"
+alias graphuser-off="sudo systemctl stop lightdm.service"
+
+# == Auditoria de Sistema ==
+# Listar o que está rodando agora no sistema.
+alias services-now="systemctl list-units --type=service --state=running"
+# Listar o que está configurado para iniciar no Boot.
+alias services-boot="systemctl list-unit-files --type=service --state=enabled"
+# Ver qual serviço está consumindo muito tempo no Boot.
+alias boot-blame="systemd-analyze blame"
+# Ver a cadeia crítica do sistema.
+alias bootchain="systemd-analyze critical-chain"
+
+# == LazyVim ==
+# abre o neovim isolado
+alias lv='lazyvim'
+# git em TUI
+alias lg='lazygit'
+
+# == Git ==
+alias g='git'
+# status curto
+alias gs='git status -s'
+# adiciona tudo.
+alias ga='git add -A'
+# commit -> gc "mensagem".
+alias gc='git commit -m'
+# enviar as mudanças.
+alias gp='git push'
+# histórico de commits - últimos 10.
+alias gl='git log --oneline -10'
+
+# == Servidores - Nginx, Apache, Samba & Jellyfin ==
+# Ligar o servidor Nginx (serviço) conectado na porta 80.
+alias nginx-on="sudo systemctl start nginx"
+# Desligar o servidor Nginx (serviço) conectado na porta 80.
+alias nginx-off="sudo systemctl stop nginx"
+# Ligar o servidor Apache (serviço) conectado na porta 8080.
+alias apache-on="sudo systemctl start apache2"
+# Desligar o servidor Apache (serviço) conectado na porta 8080.
+alias apache-off="sudo systemctl stop apache2"
+# Ligar o servidor Samba (serviço smbd, nmbd).
+alias samba-on="sudo systemctl start smbd nmbd"
+# Desligar o servidor Samba (serviço smbd, nmbd).
+alias samba-off="sudo systemctl stop smbd nmbd"
+# Ligar o servidor de Mídia - Jellyfin (serviço) - conectado na porta 8096.
+alias jellyfin-on="sudo systemctl start jellyfin"
+# Desligar o servidor de Mídia - Jellyfin (serviço) - conectado na porta 8096.
+alias jellyfin-off="sudo systemctl stop jellyfin"
+# Ver o estado dos servidores - Ngnix & Apache.
+alias server-status="sudo systemctl status nginx apache2"
+# Ver o estado do servidor - Samba.
+alias samba-status="sudo systemctl status smbd nmbd"
+# Ver o estado do servidor - Jellyfin.
+alias jellyfin-status="sudo systemctl status jellyfin"
+# == Processador do Nginx - PHP ==
+# Ligar o processador do Nginx.
+alias php-on="sudo systemctl start php8.2-fpm"
+# Desligar o processador do Nginx.
+alias php-off="sudo systemctl stop php8.2-fpm"
+
+# == Cockpit ==
+# Ligar o Cockpit - Inicia o socket e o serviço - Mostra o link para o acesso.
+alias cockpit-on="sudo systemctl start cockpit.socket && echo 'Cockpit ATIVO em: https://localhost:9090'"
+# Desligar o Cockpit - Para o serviço e fecha a porta 9090.
+alias cockpit-off="sudo systemctl stop cockpit.service cockpit.socket && echo 'Cockpit DESLIGADO: Porta 9090 fechada.'"
+# Verificar o status do Cockpit - serviço e socket.
+alias cockpit-status="sudo systemctl status cockpit.service cockpit.socket"
+
+# == Tailscale ==
+# Inicia o Tailscale e conecta.
+alias tailscale-up="sudo systemctl start tailscaled.service && sudo tailscale up"
+# Desconecta e para o serviço.
+alias tailscale-down="sudo tailscale down && sudo systemctl stop tailscaled.service"
+# Verificar o status do Tailscale e serviço.
+alias tailscale-status="sudo tailscale status && systemctl status tailscaled.service"
+
+# == AnyDesk ==
+# Ligar o serviço do AnyDesk.
+alias anydesk-on="sudo systemctl start anydesk"
+# Desligar o serviço do AnyDesk.
+alias anydesk-off="sudo systemctl stop anydesk"
+# Ver status do serviço do AnyDesk.
+alias anydesk-status="sudo systemctl status anydesk"
+
+# == Banco de Dados - MariaDB ==
+# Ligar o Banco de Dados (serviço).
+alias mariadb-on="sudo systemctl start mariadb"
+# Desligar o Banco de Dados (serviço).
+alias mariadb-off="sudo systemctl stop mariadb"
+alias mariadb-status="sudo systemctl status mariadb"
+
+# == VirtualBox ==
+# -- Módulos do Kernel --
+# Carregar o módulo necessário.
+alias vbox-on="sudo systemctl start vboxdrv"
+# Descarregar o módulo necessário - Limpa a memória.
+alias vbox-off="sudo systemctl stop vboxdrv"
+# Ver o status do módulo do VirtualBox.
+alias vbox-status="sudo systemctl status vboxdrv"
+# -- Ver os status das máquinas --
+alias vmlist="vboxmanage list runningvms"
+
+# -- Debian-Lab --
+# Iniciar a máquina virtual com a interface gráfica.
+alias deb-gui="vbx_manage debian-lab graph"
+# Iniciar a máquina virtual sem a interface gráfica, rodando ao fundo.
+alias deb-head="vbx_manage debian-lab head"
+# Desligar a máquina virtual normalmente.
+alias deb-stop="vbx_manage debian-lab stop"
+# Forçar o desligamento da máquina virtual.
+alias deb-down="vbx_manage debian-lab down"
+# Fazer conexão via SSH com o laboratório.
+alias deb-ssh="ssh -p 2222 root@localhost"
+
+# -- FreeBSD-Lab --
+# Iniciar a máqina virtual com a interface gráfica.
+alias bsd-gui="vbx_manage freebsd-lab graph"
+# Iniciar a máquina virtual sem a interface gráfica, rodando ao fundo.
+alias bsd-head="vbx_manage freebsd-lab head"
+# Desligar a máquina virtual normalmente.
+alias bsd-stop="vbx_manage freebsd-lab stop"
+# Forçar o desligamento da máquina virtual.
+alias bsd-down="vbx_manage freebsd-lab down"
+# Fazer conexão via SSH com o laboratório.
+alias bsd-ssh="ssh -p 2223 root@localhost"
+
+# -- Minix-Lab --
+# Iniciar a máquina virtual com a interface gráfica.
+alias minix-gui="vbx_manage minix-lab graph"
+# Iniciar a máquina virtual sem a interface gráfica, rodando ao fundo.
+alias minix-head="vbx_manage minix-lab head"
+# Forçar o desligamento da máquina virtual.
+alias minix-down="vbx_manage minix-lab down"
+# Fazer conexão via SSH com o laboratório.
+alias minix-ssh="ssh -p 2224 root@localhost"
+
+# == Docker - Containers ==
+# Ligar o Docker - Serviço e Socket.
+alias docker-on="sudo systemctl start docker"
+# Desligar o Docker - Completamente.
+alias docker-off="sudo systemctl stop docker docker.socket"
+# Ver status do Docker.
+alias docker-status="sudo systemctl status docker"
+
+# == zRAM ===
+alias zram-top="watch -n 2 \"zramctl && echo && free -h\""
+
+# == SCRIPTS ==
+# terminal preferido (WezTerm->Kitty->Ghostty)
+alias t='terminal-emulator.sh'
+# -- VirtualBox Labs - debian, freebsd, minix
+# -- Função interna para gerenciar os comandos.
+vbx_manage() {
+	local vm_name="$1"
+	local action="$2"
+	case "$action" in
+		graph) vboxmanage startvm "$vm_name" --type gui ;;
+		head) vboxmanage startvm "$vm_name" --type headless ;;
+		stop) vboxmanage controlvm "$vm_name" acpipowerbutton ;;
+	       	down) vboxmanage controlvm "$vm_name" poweroff ;;
+	esac
+}
+
+# -- Dashboard --
+dashboard() {
+    # Cores Negrito (\e[1;...) para contraste sobre transparência
+    local B_TUX=$'\e[1;32m' # Verde (Tux)
+    local B_LAB=$'\e[1;36m' # Ciano (Labels)
+    local B_PER=$'\e[1;33m' # Amarelo (Porcentagem)
+    local RES=$'\e[0m'      # Reset
+
+    # --- Detecção Real do Shell e Versão ---
+    local SH_N SH_V
+    if [ -n "$ZSH_VERSION" ]; then SH_N="zsh"; SH_V=$ZSH_VERSION
+    elif [ -n "$BASH_VERSION" ]; then SH_N="bash"; SH_V=$BASH_VERSION
+    else SH_N=$(basename "$SHELL"); SH_V="N/A"; fi
+
+    # --- Captura de Dados (Variáveis fixas para Kernel/Uptime) ---
+    local U_H="${USER}@$(hostname)"
+    local OS=$(grep '^PRETTY_NAME=' /etc/os-release | cut -d'"' -f2)
+    local KRN=$(uname -r)
+    local UPT=$(uptime -p | sed 's/up //')
+
+    # Memória e Swap: MiB usados / GiB totais (%)
+    local MEM=$(free -b | awk -v p="$B_PER" -v r="$RES" '/Mem:/ { printf "%.2f MiB / %.2f GiB (%s%d%%%s)", $3/1048576, $2/1073741824, p, ($3/$2)*100, r }')
+    local SWP=$(free -b | awk -v p="$B_PER" -v r="$RES" '/Swap:/ { if($2>0) printf "%.2f MiB / %.2f GiB (%s%d%%%s)", $3/1048576, $2/1073741824, p, ($3/$2)*100, r; else printf "0.00 MiB / 0.00 GiB (0%%)" }')
+
+    # Discos (Caminhos completos e fstype)
+    get_d() { df -B1 "$1" --output=used,size,pcent,fstype 2>/dev/null | awk -v p="$B_PER" -v r="$RES" 'NR==2 { printf "%.2f GiB / %.2f GiB (%s%s%s) - %s", $1/1073741824, $2/1073741824, p, $3, r, $4 }'; }
+    local D_RT=$(get_d /)
+    local D_HM=$(get_d /home)
+    local D_RP=$(get_d /mnt/repositorio_principal) || D_RP="Não Montado"
+
+    # Rede
+    local IP_L=$(hostname -I | awk '{print $1}')
+    local IP4=$(curl -4 -s -m 1 ifconfig.me || echo "N/A")
+    local IP6=$(curl -6 -s -m 1 ifconfig.me || echo "N/A")
+
+    # --- Configuração de Layout e Centralização ---
+    local DIV="------------------------------------------------------------------------------"
+    local DIV_LEN=${#DIV}
+    
+    # Pads para centralizar (largura da coluna de info)
+    calc_p() { echo $(( ($DIV_LEN - ${#1}) / 2 )); }
+    local P_USR=$(calc_p "$U_H")
+    local P_STO=$(calc_p "--- Armazenamento ---")
+    local P_NET=$(calc_p "--- Rede ---")
+
+    # --- Renderização com printf corrigido ---
+    echo -e ""
+    printf "%22s %${P_USR}s${B_LAB}%s${RES}\n" "" "" "$U_H"
+    echo -e "${B_TUX}          ___          ${B_LAB}${DIV}"
+    echo -e "${B_TUX}       ,-'   '-.         ${B_LAB}OS:                                ${RES}${OS}"
+    echo -e "${B_TUX}      /  _   _  \\        ${B_LAB}Kernel:                            ${RES}${KRN}"
+    echo -e "${B_TUX}      | (o)_(o) |        ${B_LAB}Uptime:                            ${RES}${UPT}"
+    echo -e "${B_TUX}      \\ .-''-.  /        ${B_LAB}Shell:                             ${RES}${SH_N} ${SH_V}"
+    echo -e "${B_TUX}      //\`._.-'\`\\\\         ${B_LAB}Memory:                            ${RES}${MEM}"
+    echo -e "${B_TUX}     //   :    ; \\       ${B_LAB}Swap:                              ${RES}${SWP}"
+    printf "${B_TUX}    //. - '' -.|  |      ${B_LAB}%${P_STO}s%s${RES}\n" "" "--- Armazenamento ---"
+    echo -e "${B_TUX}   /(    :     |  |      ${B_LAB}Disk (/):                          ${RES}${D_RT}"
+    echo -e "${B_TUX}  |  \\__:     ,/  /,     ${B_LAB}Disk (/home):                      ${RES}${D_HM}"
+    echo -e "${B_TUX} _;' \` ,_/'     | \`.-'\`  ${B_LAB}Disk (/mnt/repositorio_principal): ${RES}${D_RP}"
+    printf "${B_TUX})     \`\\.___./;     .'   ${B_LAB}%${P_NET}s%s${RES}\n" "" "--- Rede ---"
+    echo -e "${B_TUX}'.__    )----'\\__.-'     ${B_LAB}IP Local:                          ${RES}${IP_L}"
+    echo -e "${B_TUX}    \`\"\"'                 ${B_LAB}IPv4:                              ${RES}${IP4}"
+    echo -e "                         ${B_LAB}IPv6:                              ${RES}${IP6}"
+    echo -e "                       ${B_LAB}${DIV}${RES}"
+    echo -e ""
+}
