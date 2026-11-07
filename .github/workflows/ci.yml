@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Sintaxe bash
+        run: |
+          bash -n install.sh
+          bash -n .bashrc
+
+      - name: Sintaxe zsh
+        run: |
+          zsh -n .bashrc
+          zsh -n .aliases
+          zsh -n .p10k.zsh
+
+      - name: Sanidade (arquivos e permissões)
+        run: |
+          [ -x install.sh ] || { echo 'install.sh não é executável'; exit 1; }
+          for f in .zshrc .aliases p10k.zsh .bashrc completions/_cht; do
+            [ -f "$f" ] || { echo "faltando: $f"; exit 1; }
+          done

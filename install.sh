@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 # 'install.sh' - ambiente zsh (dependências, plugins, cht.sh + completion) e syslinks dos dotfiles
-# Uso: git clone git@github.com:guilhermeheats/dotfiles. git && cd dotfiles && ./install.sh
+# Uso: git clone git@github.com:guilhermeheats/dotfiles.git && cd dotfiles && ./install.sh
 
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
-warn() { printf '\033[1;33mAVISO: &s\033[0m\n' "$*"; }
+warn() { printf '\033[1;33mAVISO: %s\033[0m\n' "$*"; }
 
 # 1) pacotes do sistema
 sudo apt-get install -y zsh zoxide surfraw w3m
@@ -18,7 +18,7 @@ fi
 # 3) p10k + plugins do OMZ
 custom="$HOME/.oh-my-zsh/custom"
 [ -d "$custom/themes/powerlevel10k" ] ||
-  git clone --depth=1 https://github.com/romkatz/powerlevel10k.git "$custom/themes/powerlevel10k"
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$custom/themes/powerlevel10k"
 [ -d "$custom/plugins/zsh-autosuggestions" ] ||
   git clone --depth=1 https://github.com/zsh-users/zsh-autosuggestions "$custom/plugins/zsh-autosuggestions"
 [ -d "$custom/plugins/fast-syntax-highlighting" ] ||
