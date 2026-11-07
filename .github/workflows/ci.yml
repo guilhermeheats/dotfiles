@@ -22,13 +22,13 @@ jobs:
 
       - name: Sintaxe zsh
         run: |
-          zsh -n .bashrc
+          zsh -n .zshrc
           zsh -n .aliases
           zsh -n .p10k.zsh
 
       - name: Sanidade (arquivos e permissões)
         run: |
           [ -x install.sh ] || { echo 'install.sh não é executável'; exit 1; }
-          for f in .zshrc .aliases p10k.zsh .bashrc completions/_cht; do
+          for f in .zshrc .aliases .p10k.zsh .bashrc completions/_cht; do
             [ -f "$f" ] || { echo "faltando: $f"; exit 1; }
           done

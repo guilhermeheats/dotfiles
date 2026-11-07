@@ -1,7 +1,9 @@
 # Dotfiles
->Arquivos de configuração do shell (zsh e bash).
 
 [![CI](https://github.com/guilhermeheats/dotfiles/actions/workflows/ci.yml/badge.svg)](https://github.com/guilhermeheats/dotfiles/actions)
+
+>Arquivos de configuração do shell (zsh e bash).
+
 ## O que tem:
 
 | Arquivo | Papel |
