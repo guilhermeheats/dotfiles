@@ -12,7 +12,7 @@ sudo apt-get install -y zsh zoxide surfraw w3m
 
 # 2) oh-my-zsh (sem interação)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 fi
 
 # 3) p10k + plugins do OMZ
