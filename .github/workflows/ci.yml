@@ -17,6 +17,9 @@ jobs:
           bash -n install.sh
           bash -n .bashrc
 
+      - name: Instalar zsh
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq zsh
+
       - name: Sintaxe zsh
         run: |
           zsh -n .bashrc
