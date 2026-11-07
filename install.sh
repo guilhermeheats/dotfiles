@@ -10,12 +10,21 @@ warn() { printf '\033[1;33mAVISO: %s\033[0m\n' "$*"; }
 # 1) pacotes do sistema
 sudo apt-get install -y zsh zoxide surfraw w3m
 
-# 2) oh-my-zsh (sem interação)
+# 2) syslinks dos dotfiles no HOME - Antes do OMZ para não gerar template
+for f in .zshrc .aliases .p10k.zsh .bashrc; do
+  if [ -e "$HOME/$f" ]; then
+    warn "$HOME/$f já existe - pulando"
+  else
+    ln -s "$DOTFILES_DIR/$f" "$HOME/$f"
+  fi
+done
+
+# 3) oh-my-zsh (sem interação) - Com '--keep-zshrc' para preservar o symlink
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
 fi
 
-# 3) p10k + plugins do OMZ
+# 4) p10k + plugins do OMZ
 custom="$HOME/.oh-my-zsh/custom"
 [ -d "$custom/themes/powerlevel10k" ] ||
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$custom/themes/powerlevel10k"
@@ -24,20 +33,11 @@ custom="$HOME/.oh-my-zsh/custom"
 [ -d "$custom/plugins/fast-syntax-highlighting" ] ||
   git clone --depth=1 https://github.com/zdharma-continuum/fast-syntax-highlighting "$custom/plugins/fast-syntax-highlighting"
 
-# 4) cliente CLI do cht.sh + completion do zsh
+# 5) cliente CLI do cht.sh + completion do zsh
 mkdir -p "$HOME/.local/bin" "$HOME/.zsh/completions"
 curl -fsSL https://cht.sh/:cht.sh -o "$HOME/.local/bin/cht.sh"
 chmod +x "$HOME/.local/bin/cht.sh"
 cp "$DOTFILES_DIR/completions/_cht" "$HOME/.zsh/completions/_cht"
-
-# 5) syslinks dos dotfiles no HOME
-for f in .zshrc .aliases .p10k.zsh .bashrc; do
-  if [ -e "$HOME/$f" ]; then
-    warn "$HOME/$f já existe - pulando"
-  else
-    ln -s "$DOTFILES_DIR/$f" "$HOME/$f"
-  fi
-done
 
 # 6) shell padrão
 chsh -s /usr/bin/zsh || warn "chsh falhou - Rode manualmente: 'chsh -s /usr/bin/zsh'"
