@@ -18,7 +18,7 @@
 ---
 ## Como os arquivos são usados:
 
-Os arquivos reais moral neste; o home tem **syslinks** apontando para cá:
+Os arquivos reais moral neste; o home tem **symlinks** apontando para cá:
 
 - `~/.zshrc` → `~/Projects/dotfiles/.zshrc` (e o mesmo para `.aliases`, `.p10k.zsh` e `.bashrc`)
 
