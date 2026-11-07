@@ -32,3 +32,27 @@ jobs:
           for f in .zshrc .aliases .p10k.zsh .bashrc completions/_cht; do
             [ -f "$f" ] || { echo "faltando: $f"; exit 1; }
           done
+  smoke:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Rodar o install.sh em HOME limpo
+        run: |
+          export HOME=/tmp/smoke-home
+          mkdir -p "$HOME"
+          ./install.sh
+
+      - name: Carregar o .zshrc de verdade (OMZ + p10k)
+        run: |
+          export HOME=/tmp/smoke-home
+          zsh -c 'source ~/.zshrc' && echo 'zshrc carregado OK'
+
+      - name: Verificar simlinks e cht.sh
+        run: |
+          export HOME=/tmp/smoke-home
+          for f in .zshrc .aliases .p10k.zsh .bashrc; do
+            [ -L "$HOME/$f" ] || { echo "link ausente: $f"; exit 1; } 
+          done 
+          [ -x "$HOME/.local/bin/cht.sh" ] || { echo 'cht.sh não instalado'; exit 1; }
+          "$HOME/.local/bin/cht.sh" :intro | head -1
